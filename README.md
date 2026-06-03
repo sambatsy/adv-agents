@@ -129,7 +129,7 @@ If you find this work useful, please cite our paper:
 ```bibtex
 @inproceedings{adversarialagents2026,
   title     = {Adversarial Agents: Black-Box Evasion Attacks with Reinforcement Learning},
-  author    = {},
+  author    = {Kyle Domico and Jean-Charles Noirot Ferrand and Ryan Sheatsley and Eric Pauley and Josiah Hanna and Patrick McDaniel},
   booktitle = {Findings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR)},
   year      = {2026}
 }
