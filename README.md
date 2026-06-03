@@ -1,7 +1,7 @@
 # Adversarial Agents: Black-Box Evasion Attacks with Reinforcement Learning
 
 <p align="center">
-  <img src="figures/intro_figure.png" alt="Intro Figure" width="800"/>
+  <img src="intro_figure.png" alt="Intro Figure" width="800"/>
 </p>
 
 ---
