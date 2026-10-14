@@ -1,0 +1,46 @@
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment / secrets
+.env
+.env.*
+*.local
+
+# Dependencies
+node_modules/
+venv/
+.venv/
+__pycache__/
+*.pyc
+
+# Build output
+dist/
+build/
+*.egg-info/
+
+# OS cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# Datasets, model weights, and run outputs (large / regenerable; exceed GitHub's
+# 100MB limit and/or are reproducible artifacts that do not belong in git)
+data/
+dataset
+victim_models/
+agents/
+wandb/
+learning_results/
+evaluation_results/
+*.pth
+*.tar.gz

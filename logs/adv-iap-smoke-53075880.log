@@ -1,0 +1,55 @@
+=== GPU info ===
+NVIDIA A100-SXM4-80GB, 81920 MiB
+
+=== Unit tests ===
+PASS: test_action_dim_mismatch_raises
+PASS: test_env_iap_step_shape_and_budget
+PASS: test_linf_budget_respected
+PASS: test_output_shape_and_range
+PASS: test_sensitivity_cache_runs_once
+PASS: test_zero_action_is_identity
+
+6/6 tests passed
+
+=== Smoke test: --perturbation iap_segment (G=16), resnet50 victim ===
+/ibex/user/shehrie/adversarial-agents/train_agent.py:272: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  state_dict = torch.load(
+Files already downloaded and verified
+Logging to ./learning_results/
+----------------------------
+| time/              |     |
+|    fps             | 20  |
+|    iterations      | 1   |
+|    time_elapsed    | 25  |
+|    total_timesteps | 512 |
+----------------------------
+Traceback (most recent call last):
+  File "/ibex/user/shehrie/adversarial-agents/train_agent.py", line 368, in <module>
+    adversarial_agent.train(steps=args.training_steps, callback=callback)
+  File "/ibex/user/shehrie/adversarial-agents/ppo_agent.py", line 145, in train
+    self.model.learn(
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 311, in learn
+    return super().learn(
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/common/on_policy_algorithm.py", line 337, in learn
+    self.train()
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/ppo/ppo.py", line 213, in train
+    values, log_prob, entropy = self.policy.evaluate_actions(rollout_data.observations, actions)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 737, in evaluate_actions
+    distribution = self._get_action_dist_from_latent(latent_pi)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/common/policies.py", line 694, in _get_action_dist_from_latent
+    return self.action_dist.proba_distribution(mean_actions, self.log_std)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/stable_baselines3/common/distributions.py", line 166, in proba_distribution
+    self.distribution = Normal(mean_actions, action_std)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torch/distributions/normal.py", line 59, in __init__
+    super().__init__(batch_shape, validate_args=validate_args)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torch/distributions/distribution.py", line 71, in __init__
+    raise ValueError(
+ValueError: Expected parameter loc (Tensor of shape (64, 768)) of distribution Normal(loc: torch.Size([64, 768]), scale: torch.Size([64, 768])) to satisfy the constraint Real(), but found invalid values:
+tensor([[nan, nan, nan,  ..., nan, nan, nan],
+        [nan, nan, nan,  ..., nan, nan, nan],
+        [nan, nan, nan,  ..., nan, nan, nan],
+        ...,
+        [nan, nan, nan,  ..., nan, nan, nan],
+        [nan, nan, nan,  ..., nan, nan, nan],
+        [nan, nan, nan,  ..., nan, nan, nan]], device='cuda:0',
+       grad_fn=<AddmmBackward0>)

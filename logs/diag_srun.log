@@ -1,0 +1,18 @@
+srun: job 53187080 queued and waiting for resources
+srun: job 53187080 has been allocated resources
+device: cuda
+/ibex/user/shehrie/adversarial-agents/scratch/diagnose_nan.py:30: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  sd = torch.load("./victim_models/cifar10+resnet50.pth", map_location=device)
+Files already downloaded and verified
+[rollout] reward: min=0.0000 max=0.4429 mean=0.0036 std=0.0277 frac_zero=0.963
+[rollout] advantage: min=-0.0002 max=0.6013 mean=0.0338 std=0.0643
+[rollout] returns: min=-0.0922 max=0.5370 mean=-0.0198 std=0.0778
+[mb 0] old_logp[min/max]=-1138.70/-1044.88 new_logp[min/max]=-1138.70/-1044.88 ratio[min/max]=9.999e-01/1.000e+00 adv_norm[min/max]=-0.51/4.73
+[mb 1] old_logp[min/max]=-1144.66/-1043.41 new_logp[min/max]=-1144.66/-1043.41 ratio[min/max]=9.998e-01/1.000e+00 adv_norm[min/max]=-0.51/4.21
+[mb 2] old_logp[min/max]=-1138.42/-1045.12 new_logp[min/max]=-1138.42/-1045.12 ratio[min/max]=9.998e-01/1.000e+00 adv_norm[min/max]=-0.58/4.37
+[mb 3] old_logp[min/max]=-1120.59/-1043.63 new_logp[min/max]=-1120.59/-1043.63 ratio[min/max]=9.998e-01/1.000e+00 adv_norm[min/max]=-0.53/3.84
+[mb 4] old_logp[min/max]=-1159.06/-1035.27 new_logp[min/max]=-1159.06/-1035.27 ratio[min/max]=9.999e-01/1.000e+00 adv_norm[min/max]=-0.64/3.64
+[mb 5] old_logp[min/max]=-1140.36/-1047.88 new_logp[min/max]=-1140.36/-1047.88 ratio[min/max]=9.999e-01/1.000e+00 adv_norm[min/max]=-0.56/4.48
+[mb 6] old_logp[min/max]=-1144.33/-1045.38 new_logp[min/max]=-1144.33/-1045.38 ratio[min/max]=9.999e-01/1.000e+00 adv_norm[min/max]=-0.55/4.08
+[mb 7] old_logp[min/max]=-1146.99/-1031.21 new_logp[min/max]=-1146.99/-1031.21 ratio[min/max]=9.998e-01/1.000e+00 adv_norm[min/max]=-0.46/6.21
+=== diagnosis complete ===

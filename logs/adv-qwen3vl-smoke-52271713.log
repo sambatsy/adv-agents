@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "/ibex/user/shehrie/adversarial-agents/smoke_test_qwen3vl.py", line 17, in <module>
+    import torch
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torch/__init__.py", line 367, in <module>
+    from torch._C import *  # noqa: F403
+ImportError: /ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torch/lib/libtorch_cpu.so: undefined symbol: iJIT_NotifyEvent

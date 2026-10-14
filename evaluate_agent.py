@@ -8,6 +8,7 @@ import os
 import random
 from environment import EvasionEnv
 from ppo_agent import PPOAgent
+from qwen3vl_victim import load_qwen3vl_victim
 from stable_baselines3.common.vec_env import DummyVecEnv
 from stable_baselines3.common.monitor import Monitor
 from stable_baselines3.common.logger import configure
@@ -46,7 +47,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "--victim_model", type=str, default="resnet50", help="The victim model to attack."
-)
+)  # Options: 'resnet50', 'vgg16', 'vit_b_16', 'qwen3vl' (the last is a zero-shot VLM classifier)
 
 # Evaluation Arguments
 parser.add_argument(
@@ -54,6 +55,32 @@ parser.add_argument(
     type=str,
     default="./agents/agent0.pth",
     help="The file path of the trained adversarial agent.",
+)
+
+# Perturbation backend (must match the backend the agent was trained with)
+parser.add_argument(
+    "--perturbation",
+    type=str,
+    default="paper",
+    choices=["paper", "iap_segment"],
+    help="Perturbation backend: 'paper' (sparse-pixel) or 'iap_segment' (IAP grid).",
+)
+parser.add_argument(
+    "--epsilon_linf",
+    type=float,
+    default=8.0 / 255.0,
+    help="L-inf budget for the iap_segment perturbation.",
+)
+parser.add_argument(
+    "--delta_grid_size",
+    type=int,
+    default=16,
+    help="Low-resolution action grid side G for iap_segment (action dim = 3*G*G).",
+)
+parser.add_argument(
+    "--random_policy",
+    action="store_true",
+    help="Use a random (untrained) policy instead of loading the agent file.",
 )
 
 # Parse the arguments
@@ -73,34 +100,39 @@ if not os.path.exists("evaluation_results"):
 
 # Load the victim model
 
-if args.victim_model == "resnet50":
-    victim_model = torchvision.models.resnet50(weights=None)
-    victim_model.fc = torch.nn.Linear(
-        victim_model.fc.in_features, 10
-    )  # 10 classes for CIFAR-10/SVHN
-elif args.victim_model == "vgg16":
-    victim_model = torchvision.models.vgg16(weights=None)
-    victim_model.classifier[6] = torch.nn.Linear(
-        victim_model.classifier[6].in_features, 10
-    )  # 10 classes for CIFAR-10/SVHN
-elif args.victim_model == "vit_b_16":
-    victim_model = torchvision.models.vit_b_16(weights=None)
-    victim_model.heads.head = torch.nn.Linear(
-        victim_model.heads.head.in_features, 10
-    )  # 10 classes for CIFAR-10/SVHN
+if args.victim_model == "qwen3vl":
+    # Qwen3-VL is a zero-shot VLM classifier; its weights come from the HF hub
+    # (or a local snapshot), so it skips the torchvision + .pth loading below.
+    victim_model = load_qwen3vl_victim(args.dataset)
 else:
-    raise ValueError(f"Victim model {args.victim_model} not supported.")
+    if args.victim_model == "resnet50":
+        victim_model = torchvision.models.resnet50(weights=None)
+        victim_model.fc = torch.nn.Linear(
+            victim_model.fc.in_features, 10
+        )  # 10 classes for CIFAR-10/SVHN
+    elif args.victim_model == "vgg16":
+        victim_model = torchvision.models.vgg16(weights=None)
+        victim_model.classifier[6] = torch.nn.Linear(
+            victim_model.classifier[6].in_features, 10
+        )  # 10 classes for CIFAR-10/SVHN
+    elif args.victim_model == "vit_b_16":
+        victim_model = torchvision.models.vit_b_16(weights=None)
+        victim_model.heads.head = torch.nn.Linear(
+            victim_model.heads.head.in_features, 10
+        )  # 10 classes for CIFAR-10/SVHN
+    else:
+        raise ValueError(f"Victim model {args.victim_model} not supported.")
 
-victim_model.to(device)
+    victim_model.to(device)
 
-# Load the victim model weights (from the ./victim_models/ directory)
-state_dict = torch.load(
-    "./victim_models/{}+{}.pth".format(args.dataset, args.victim_model), map_location=device
-)
-victim_model.load_state_dict(state_dict['model_state_dict'])
+    # Load the victim model weights (from the ./victim_models/ directory)
+    state_dict = torch.load(
+        "./victim_models/{}+{}.pth".format(args.dataset, args.victim_model), map_location=device
+    )
+    victim_model.load_state_dict(state_dict['model_state_dict'])
 
-# Set the victim model to evaluation mode
-victim_model.eval()
+    # Set the victim model to evaluation mode
+    victim_model.eval()
 
 # Load the RL testing dataset D_prime (50% of the original test dataset)
 raw_transform = torchvision.transforms.Compose(
@@ -128,7 +160,16 @@ D_prime = dataset[split_index:]  # Use the second half of the dataset for testin
 rl_attack_config = {"type": args.rl_attack_type, "epsilon": args.epsilon, "c": args.c}
 
 # Create the evaluation environment
-evaluation_env = EvasionEnv(victim_model, D_prime, args.N, args.theta, rl_attack_config)
+evaluation_env = EvasionEnv(
+    victim_model,
+    D_prime,
+    args.N,
+    args.theta,
+    rl_attack_config,
+    perturbation=args.perturbation,
+    epsilon_linf=args.epsilon_linf,
+    delta_grid_size=args.delta_grid_size,
+)
 
 # Create the logger and the attacker
 logger = configure("./evaluation_results/", ["stdout", "csv"])
@@ -145,10 +186,14 @@ adversarial_agent = PPOAgent(
 )
 adversarial_agent.model.set_logger(logger)
 
-# Load the trained adversarial agent's policy from the specified file
-adversarial_agent.model.policy.load_state_dict(
-    torch.load(args.agent_file, map_location=device)
-)
+# Load the trained adversarial agent's policy from the specified file (unless we
+# are evaluating a random/untrained policy as a baseline).
+if args.random_policy:
+    print("Using a random (untrained) policy baseline.")
+else:
+    adversarial_agent.model.policy.load_state_dict(
+        torch.load(args.agent_file, map_location=device)
+    )
 
 # Write the episodic data file header
 with open("evaluation_results/episodic.csv", "w") as f:

@@ -1,0 +1,12 @@
+=== GPU info ===
+NVIDIA A100-SXM4-80GB, 81920 MiB
+
+=== Unit tests ===
+PASS: test_action_dim_mismatch_raises
+FAIL: test_env_iap_step_shape_and_budget: Expected all tensors to be on the same device, but found at least two devices, cpu and cuda:0! (when checking argument for argument mat1 in method wrapper_CUDA_addmm)
+PASS: test_linf_budget_respected
+PASS: test_output_shape_and_range
+PASS: test_sensitivity_cache_runs_once
+PASS: test_zero_action_is_identity
+
+5/6 tests passed

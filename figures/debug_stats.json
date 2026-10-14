@@ -1,0 +1,53 @@
+{
+  "item1_low_sensitivity_fraction": {
+    "per_image": [
+      0.8974609375,
+      0.9306640625,
+      0.669921875,
+      0.880859375
+    ],
+    "mean": 0.8447265625
+  },
+  "item2_would_accept_pct": {
+    "paper": 49.9,
+    "iap_segment": 45.9
+  },
+  "item2_margin_mean": {
+    "paper": 0.00015558469295501708,
+    "iap_segment": -0.0006093373745679855
+  },
+  "item2_margin_max": {
+    "paper": 0.09918856620788574,
+    "iap_segment": 0.03819704055786133
+  },
+  "item3_acceptance_collapse": {
+    "paper": {
+      "step0_rate": 0.6,
+      "steps1_5_rate": 0.44000000000000006,
+      "steps20plus_rate": 0.21333333333333332
+    },
+    "iap_segment": {
+      "step0_rate": 0.4,
+      "steps1_5_rate": 0.27999999999999997,
+      "steps20plus_rate": 0.023333333333333334
+    }
+  },
+  "item4_distortion": {
+    "l2_mean": {
+      "paper": 0.3000000158945719,
+      "iap_segment": 0.032794514670968056
+    },
+    "l2_max": {
+      "paper": 0.30000004172325134,
+      "iap_segment": 0.052173081785440445
+    },
+    "linf_mean": {
+      "paper": 0.053229935963948566,
+      "iap_segment": 0.003921590248743693
+    },
+    "linf_max": {
+      "paper": 0.06955751776695251,
+      "iap_segment": 0.003921598196029663
+    }
+  }
+}

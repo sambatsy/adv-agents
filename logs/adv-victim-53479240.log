@@ -1,0 +1,61 @@
+Using arguments: Namespace(model='vit_b_16', dataset='cifar10', epochs=10, batch_size=128, lr=0.0001, data_dir='./data', save_dir='./victim_models', model_id='0', pretrained=True, num_workers=16, weight_decay=0.0001, momentum=0.9, amp=True)
+Using device: cuda:0
+Loading dataset: CIFAR10
+Files already downloaded and verified
+Files already downloaded and verified
+Number of classes: 10
+Training samples: 50000
+Validation samples: 10000
+Loading model: VIT_B_16
+/ibex/user/shehrie/adversarial-agents/train_victim_model.py:175: FutureWarning: `torch.cuda.amp.GradScaler(args...)` is deprecated. Please use `torch.amp.GradScaler('cuda', args...)` instead.
+  scaler = torch.cuda.amp.GradScaler() if (torch.cuda.is_available() and use_amp) else None
+Epoch 1/10
+----------
+/ibex/user/shehrie/adversarial-agents/train_victim_model.py:205: FutureWarning: `torch.cuda.amp.autocast(args...)` is deprecated. Please use `torch.amp.autocast('cuda', args...)` instead.
+  with torch.cuda.amp.autocast(enabled=True):
+Train Loss: 0.4680 Acc: 0.8443
+Val Loss: 0.1292 Acc: 0.9559
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9559
+Epoch 2/10
+----------
+Train Loss: 0.3333 Acc: 0.8879
+Val Loss: 0.1100 Acc: 0.9643
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9643
+Epoch 3/10
+----------
+Train Loss: 0.2932 Acc: 0.9000
+Val Loss: 0.0965 Acc: 0.9662
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9662
+Epoch 4/10
+----------
+Train Loss: 0.2712 Acc: 0.9066
+Val Loss: 0.0977 Acc: 0.9681
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9681
+Epoch 5/10
+----------
+Train Loss: 0.2509 Acc: 0.9154
+Val Loss: 0.0942 Acc: 0.9698
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9698
+Epoch 6/10
+----------
+Train Loss: 0.2379 Acc: 0.9182
+Val Loss: 0.1068 Acc: 0.9657
+Epoch 7/10
+----------
+Train Loss: 0.2340 Acc: 0.9198
+Val Loss: 0.0949 Acc: 0.9702
+New best model saved to ./victim_models/cifar10+vit_b_16.pth with accuracy: 0.9702
+Epoch 8/10
+----------
+Train Loss: 0.2201 Acc: 0.9248
+Val Loss: 0.1056 Acc: 0.9673
+Epoch 9/10
+----------
+Train Loss: 0.2191 Acc: 0.9248
+Val Loss: 0.1072 Acc: 0.9650
+Epoch 10/10
+----------
+Train Loss: 0.2136 Acc: 0.9263
+Val Loss: 0.0984 Acc: 0.9689
+Training complete in 10m 16s
+Best Val Acc: 0.970200

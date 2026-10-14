@@ -1,0 +1,41 @@
+Traceback (most recent call last):
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2560, in __getattr__
+    module = self._get_module(self._class_to_module[name])
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2794, in _get_module
+    raise e
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2792, in _get_module
+    return importlib.import_module("." + module_name, self.__name__)
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/importlib/__init__.py", line 126, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+  File "<frozen importlib._bootstrap>", line 1050, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 688, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 883, in exec_module
+  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/models/auto/processing_auto.py", line 25, in <module>
+    from ...image_processing_utils import ImageProcessingMixin
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/image_processing_utils.py", line 34, in <module>
+    from .processing_utils import ImagesKwargs, Unpack
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/processing_utils.py", line 38, in <module>
+    from .audio_utils import AudioInput, load_audio, make_list_of_audio
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/audio_utils.py", line 58, in <module>
+    import torchaudio
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torchaudio/__init__.py", line 2, in <module>
+    from . import _extension  # noqa  # usort: skip
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torchaudio/_extension/__init__.py", line 42, in <module>
+    _check_cuda_version()
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/torchaudio/_extension/utils.py", line 175, in _check_cuda_version
+    raise RuntimeError(
+RuntimeError: Detected that PyTorch and TorchAudio were compiled with different CUDA versions. PyTorch has CUDA version 12.4 whereas TorchAudio has CUDA version 12.1. Please install the TorchAudio version that matches your PyTorch version.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/ibex/user/shehrie/adversarial-agents/smoke_test_qwen3vl.py", line 21, in <module>
+    from qwen3vl_victim import CLASS_NAMES, load_qwen3vl_victim
+  File "/ibex/user/shehrie/adversarial-agents/qwen3vl_victim.py", line 31, in <module>
+    from transformers import AutoProcessor, Qwen3VLForConditionalGeneration
+  File "/ibex/user/shehrie/conda/envs/adversarial-agents/lib/python3.10/site-packages/transformers/utils/import_utils.py", line 2648, in __getattr__
+    raise ModuleNotFoundError(
+ModuleNotFoundError: Could not import module 'AutoProcessor'. Are this object's requirements defined correctly?

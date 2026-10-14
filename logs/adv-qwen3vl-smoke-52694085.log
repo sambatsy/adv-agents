@@ -1,0 +1,33 @@
+Device: cuda
+Files already downloaded and verified
+Loading Qwen3-VL victim (this downloads/loads the checkpoint)...
+Fetching 4 files:   0%|          | 0/4 [00:00<?, ?it/s]Fetching 4 files: 100%|██████████| 4/4 [00:00<00:00, 1898.09it/s]
+Loading weights:   0%|          | 0/750 [00:00<?, ?it/s]Loading weights:   0%|          | 1/750 [00:00<01:44,  7.15it/s]Loading weights:   0%|          | 2/750 [00:00<02:38,  4.71it/s]Loading weights:   2%|▏         | 17/750 [00:00<00:15, 45.92it/s]Loading weights:   5%|▌         | 38/750 [00:00<00:08, 86.53it/s]Loading weights:   8%|▊         | 57/750 [00:00<00:06, 110.52it/s]Loading weights:  10%|█         | 76/750 [00:00<00:05, 130.77it/s]Loading weights:  12%|█▏        | 93/750 [00:00<00:04, 135.87it/s]Loading weights:  15%|█▌        | 115/750 [00:01<00:04, 145.15it/s]Loading weights:  18%|█▊        | 137/750 [00:01<00:04, 153.01it/s]Loading weights:  21%|██        | 159/750 [00:01<00:03, 165.93it/s]Loading weights:  24%|██▎       | 177/750 [00:01<00:03, 169.22it/s]Loading weights:  26%|██▌       | 195/750 [00:01<00:03, 164.62it/s]Loading weights:  28%|██▊       | 213/750 [00:01<00:03, 166.09it/s]Loading weights:  31%|███       | 230/750 [00:01<00:03, 164.95it/s]Loading weights:  33%|███▎      | 247/750 [00:01<00:03, 154.58it/s]Loading weights:  36%|███▌      | 269/750 [00:01<00:02, 171.27it/s]Loading weights:  38%|███▊      | 288/750 [00:02<00:02, 175.77it/s]Loading weights:  41%|████      | 306/750 [00:02<00:02, 168.23it/s]Loading weights:  43%|████▎     | 324/750 [00:02<00:02, 163.09it/s]Loading weights:  46%|████▌     | 343/750 [00:02<00:02, 169.15it/s]Loading weights:  48%|████▊     | 361/750 [00:02<00:02, 161.69it/s]Loading weights:  51%|█████     | 379/750 [00:02<00:02, 160.90it/s]Loading weights:  54%|█████▍    | 405/750 [00:02<00:01, 187.22it/s]Loading weights:  69%|██████▉   | 520/750 [00:02<00:00, 456.45it/s]Loading weights:  94%|█████████▍| 705/750 [00:02<00:00, 852.41it/s]Loading weights: 100%|██████████| 750/750 [00:03<00:00, 246.06it/s]
+[transformers] Kwargs passed to `processor.__call__` have to be in `processor_kwargs` dict, not in `**kwargs`
+[transformers] Kwargs passed to `processor.__call__` have to be in `processor_kwargs` dict, not in `**kwargs`
+
+=== path: reset (raw [0,1]) ===
+scores shape: (16, 10)  accuracy: 1.000 (chance = 0.100)
+  true=cat         pred=cat         p=1.00
+  true=ship        pred=ship        p=1.00
+  true=ship        pred=ship        p=1.00
+  true=airplane    pred=airplane    p=1.00
+  true=frog        pred=frog        p=1.00
+  true=frog        pred=frog        p=1.00
+  true=automobile  pred=automobile  p=1.00
+  true=frog        pred=frog        p=1.00
+[transformers] Kwargs passed to `processor.__call__` have to be in `processor_kwargs` dict, not in `**kwargs`
+[transformers] Kwargs passed to `processor.__call__` have to be in `processor_kwargs` dict, not in `**kwargs`
+
+=== path: dynamics (normalized) ===
+scores shape: (16, 10)  accuracy: 1.000 (chance = 0.100)
+  true=cat         pred=cat         p=1.00
+  true=ship        pred=ship        p=1.00
+  true=ship        pred=ship        p=1.00
+  true=airplane    pred=airplane    p=0.73
+  true=frog        pred=frog        p=1.00
+  true=frog        pred=frog        p=1.00
+  true=automobile  pred=automobile  p=1.00
+  true=frog        pred=frog        p=1.00
+
+Smoke test finished.

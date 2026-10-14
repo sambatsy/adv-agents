@@ -108,8 +108,13 @@ def get_data(dataset_name, data_dir, batch_size, num_workers=4):
     else:
         raise ValueError(f"Dataset {dataset_name} not supported.")
 
-    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
-    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, num_workers=num_workers, pin_memory=True)
+    # persistent_workers + prefetch keep the (CPU-bound 32->224 resize) pipeline
+    # ahead of the A100 so the GPU does not stall between epochs.
+    loader_kwargs = dict(num_workers=num_workers, pin_memory=True)
+    if num_workers > 0:
+        loader_kwargs.update(persistent_workers=True, prefetch_factor=4)
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True, **loader_kwargs)
+    val_loader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False, **loader_kwargs)
 
     print(f"Number of classes: {num_classes}")
     print(f"Training samples: {len(train_dataset)}")
@@ -263,6 +268,13 @@ def main():
     # Set device
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     print(f"Using device: {device}")
+
+    # TF32 on Ampere (A100): speeds up float32 matmul/conv paths at no accuracy
+    # cost; benchmark picks the fastest conv algos for the fixed 224x224 input.
+    if torch.cuda.is_available():
+        torch.backends.cuda.matmul.allow_tf32 = True
+        torch.backends.cudnn.allow_tf32 = True
+        torch.backends.cudnn.benchmark = True
 
     # Get data
     train_loader, val_loader, num_classes = get_data(args.dataset, args.data_dir, args.batch_size, num_workers=args.num_workers)
